@@ -1,54 +1,30 @@
-"""LangGraph single-node graph template.
 
-Returns a predefined response. Replace logic and configuration as needed.
-"""
-
-from __future__ import annotations
-
-from dataclasses import dataclass
-from typing import Any, Dict
-
-from langgraph.graph import StateGraph
-from langgraph.runtime import Runtime
-from typing_extensions import TypedDict
+from langchain.agents import create_agent
+from langchain_openai import ChatOpenAI
+from langchain_core.runnables import RunnableConfig
 
 
-class Context(TypedDict):
-    """Context parameters for the agent.
+from dotenv import load_dotenv
 
-    Set these when creating assistants OR when invoking the graph.
-    See: https://langchain-ai.github.io/langgraph/cloud/how-tos/configuration_cloud/
-    """
+from src.agent.prompt import apply_prompt_template
+from src.community.tools import web_search_tool, web_fetch_tool
+from src.tools.builtins.clarification_tool import ask_clarification_tool
 
-    my_configurable_param: str
-
-
-@dataclass
-class State:
-    """Input state for the agent.
-
-    Defines the initial structure of incoming data.
-    See: https://langchain-ai.github.io/langgraph/concepts/low_level/#state
-    """
-
-    changeme: str = "example"
-
-
-async def call_model(state: State, runtime: Runtime[Context]) -> Dict[str, Any]:
-    """Process input and returns output.
-
-    Can use runtime context to alter behavior.
-    """
-    return {
-        "changeme": "output from call_model. "
-        f"Configured with {(runtime.context or {}).get('my_configurable_param')}"
-    }
+load_dotenv()
+model = ChatOpenAI(
+    model="gpt-4o-mini",
+    base_url='https://ai.keep.fm/v1/',
+    temperature=0.1,
+    max_tokens=1000,
+    timeout=30
+    # ... (other params)
+)
 
 
 # Define the graph
-graph = (
-    StateGraph(State, context_schema=Context)
-    .add_node(call_model)
-    .add_edge("__start__", "call_model")
-    .compile(name="New Graph")
-)
+def make_lead_agent(config: RunnableConfig):
+    return create_agent(
+        model,
+        tools=[web_search_tool, web_fetch_tool, ask_clarification_tool],
+        system_prompt=apply_prompt_template()
+    )

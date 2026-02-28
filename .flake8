@@ -1,0 +1,15 @@
+[flake8]
+# 忽略的错误码
+ignore = E501, E203, W503, E402, E302, F401, E303
+
+# 最大行长度
+max-line-length = 120
+
+# 排除的目录
+exclude = .git, __pycache__, build, dist, .venv, venv
+
+# 启用的扩展
+extend-ignore = E203, W503
+
+# 缩进宽度
+indent-size = 4
