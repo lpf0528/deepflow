@@ -1,5 +1,6 @@
-from langchain.tools import tool
 from typing import Literal
+
+from langchain.tools import tool
 
 
 @tool('ask_clarification', parse_docstring=True, return_direct=True)
@@ -12,7 +13,7 @@ def ask_clarification_tool(
         "risk_confirmation",
         "suggestion"
     ],
-    content: str | None = None,
+    context: str | None = None,
     options: list[str] | None = None
 ):
     """
@@ -48,6 +49,7 @@ def ask_clarification_tool(
     - `context`：可选，说明为何需要澄清的上下文，帮助用户理解情况。
     - `options`：可选，选项列表（适用于 approach_choice 或 suggestion 类型），为用户呈现清晰的选择。
     """
+    # eg: 请帮我优化性能，但不要直接给方案，先问我需要你提供哪些具体信息才能开始。
     # 这是一个占位符实现
     # 实际逻辑由 ClarificationMiddleware 处理，它会拦截此工具调用
     # 并中断执行，将问题呈现给用户

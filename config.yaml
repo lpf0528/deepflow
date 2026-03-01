@@ -1,0 +1,7 @@
+
+
+sandbox:
+  use: src.sandbox.local:LocalSandboxProvider
+
+skills:
+  container_path: /mnt/skills

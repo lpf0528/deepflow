@@ -9,6 +9,8 @@ from dotenv import load_dotenv
 from src.agent.prompt import apply_prompt_template
 from src.community.tools import web_search_tool, web_fetch_tool
 from src.tools.builtins.clarification_tool import ask_clarification_tool
+from src.middlewares.clarification_middleware import ClarificationMiddleware
+from src.middlewares.thread_data_middleware import ThreadDataMiddleware
 
 load_dotenv()
 model = ChatOpenAI(
@@ -26,5 +28,10 @@ def make_lead_agent(config: RunnableConfig):
     return create_agent(
         model,
         tools=[web_search_tool, web_fetch_tool, ask_clarification_tool],
-        system_prompt=apply_prompt_template()
+        system_prompt=apply_prompt_template(),
+        middleware=[
+            ThreadDataMiddleware(),
+            ClarificationMiddleware()
+        ],
+        # sta
     )
