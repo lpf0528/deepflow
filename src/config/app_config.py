@@ -5,9 +5,11 @@ from typing import Self, Any
 from pathlib import Path
 from src.config.sandbox_config import SandboxConfig
 from src.config.skills_config import SkillsConfig
+from src.config.model_config import ModelConfig
 
 class AppConfig(BaseModel):
     sandbox: SandboxConfig = Field(description="沙箱配置")
+    models: list[ModelConfig] = Field(description="模型配置")
     skills: SkillsConfig = Field(default_factory=SkillsConfig, description="技能配置")
 
     @classmethod
@@ -56,6 +58,10 @@ class AppConfig(BaseModel):
 
         return cls.model_validate(config_data)
 
+    def get_model_config(self, name: str) -> ModelConfig | None:
+        """根据模型名称获取模型配置
+        """
+        return next((model for model in self.models if model.name == name), None)
 
 
 

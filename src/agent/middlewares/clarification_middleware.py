@@ -101,5 +101,5 @@ class ClarificationMiddleware(AgentMiddleware[ClarificationMiddlewareState]):
 
         if options and len(options) > 0:
             message_parts.append('')  # 空行用于间隔。
-            message_parts.extend([f"{i+1}. {opt}" for i, opt in enumerate(options)])
+            message_parts.extend([f"{i + 1}. {opt}" for i, opt in enumerate(options)])
         return '\n'.join(message_parts)

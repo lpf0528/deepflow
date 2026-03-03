@@ -3,7 +3,7 @@ from langchain.agents import AgentState
 from langchain.agents.middleware import AgentMiddleware
 from langgraph.runtime import Runtime
 from src.agent.thread_state import ThreadDataState
-from src.config.paths import get_path
+from src.config.paths import get_paths
 from typing import override
 
 class ThreadDataMiddlewareState(AgentState):
@@ -24,7 +24,7 @@ class ThreadDataMiddleware(AgentMiddleware[ThreadDataMiddlewareState]):
     state_schema = ThreadDataMiddlewareState
 
     def __init__(self, base_dir: str | None = None, lazy_init: bool = True):
-        self._path = get_path()
+        self._path = get_paths()
 
     def _get_thread_paths(self, thread_id: str) -> dict[str, str]:
         return {

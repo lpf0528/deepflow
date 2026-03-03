@@ -50,7 +50,7 @@ class Paths:
 
 _paths: Paths | None = None
 
-def get_path() -> Paths:
+def get_paths() -> Paths:
     global _paths
     if _paths is None:
         _paths = Paths()
@@ -58,4 +58,4 @@ def get_path() -> Paths:
 
 
 if __name__ == '__main__':
-    print(get_path().base_dir)
+    print(get_paths().base_dir)
