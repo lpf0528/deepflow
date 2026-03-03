@@ -13,6 +13,7 @@ from src.agent.middlewares.clarification_middleware import ClarificationMiddlewa
 from src.agent.middlewares.thread_data_middleware import ThreadDataMiddleware
 from src.agent.middlewares.uploads_middleware import UploadsMiddleware
 from src.agent.middlewares.title_middleware import TitleMiddleware
+from src.models.factory import create_chat_model
 
 load_dotenv()
 model = ChatOpenAI(
@@ -28,13 +29,14 @@ model = ChatOpenAI(
 # Define the graph
 def make_lead_agent(config: RunnableConfig):
     return create_agent(
-        model,
+        model=model,
         tools=[web_search_tool, web_fetch_tool, ask_clarification_tool],
         system_prompt=apply_prompt_template(),
         middleware=[
             ThreadDataMiddleware(),
             ClarificationMiddleware(),
-            UploadsMiddleware()
+            UploadsMiddleware(),
+            TitleMiddleware()
         ],
         # sta
     )
