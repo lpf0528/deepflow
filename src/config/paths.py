@@ -47,6 +47,10 @@ class Paths:
 
         return self.base_dir / 'threads' / thread_id
 
+    @property
+    def memory_file(self) -> Path:
+        return self.base_dir / 'memory.json'
+
 
 _paths: Paths | None = None
 

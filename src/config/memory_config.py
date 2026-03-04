@@ -12,7 +12,7 @@ class MemoryConfig(BaseModel):
         "那么现在文件将解析为 `{base_dir}/.deer-flow/memory.json`；"
         "请迁移现有数据或使用绝对路径以保持旧位置。"
     ))
-    debounce_seconds: int = Field(default=30, ge=1, le=300, description='处理排队更新之前等待的秒数（去抖动）。')
+    debounce_seconds: int = Field(default=10, ge=1, le=300, description='处理排队更新之前等待的毫秒数（去抖动）。')
     model_name : str | None = Field(default=None, description='用于记忆的模型名称。')
     max_facts: int = Field(default=100, ge=10, le=500, description='要存储的事实的最大数量。')
     fact_confidence_threshold: float = Field(default=0.7, ge=0.0, le=1.0, description='存储事实的最低置信度阈值')
@@ -23,7 +23,7 @@ class MemoryConfig(BaseModel):
 _memory_config: MemoryConfig() = MemoryConfig()
 
 
-def get_memory_config():
+def get_memory_config() -> MemoryConfig:
     return _memory_config
 
 

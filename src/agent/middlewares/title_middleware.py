@@ -1,5 +1,5 @@
 from typing import NotRequired, override
-from langchain.agents.state import AgentState
+from langchain.agents import AgentState
 from langchain.agents.middleware import AgentMiddleware
 from langgraph.runtime import Runtime
 from src.config.title_config import get_title_config

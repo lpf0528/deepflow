@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import NotRequired, override
 from langchain.agents import AgentState
 from langchain.agents.middleware import AgentMiddleware
-from langchain.runtime import Runtime
+from langgraph.runtime import Runtime
 from langchain_core.messages import HumanMessage
 from src.config.paths import get_paths, Paths
 
